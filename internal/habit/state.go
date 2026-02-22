@@ -40,6 +40,11 @@ func LoadState() (*State, error) {
 	if err != nil {
 		return nil, err
 	}
+	return LoadStateFromPath(path)
+}
+
+// LoadStateFromPath reads state from the given path. Used for testing.
+func LoadStateFromPath(path string) (*State, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -59,6 +64,11 @@ func SaveState(s *State) error {
 	if err != nil {
 		return err
 	}
+	return SaveStateToPath(s, path)
+}
+
+// SaveStateToPath writes state to the given path. Used for testing.
+func SaveStateToPath(s *State, path string) error {
 	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
 		return err
 	}

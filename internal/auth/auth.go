@@ -46,7 +46,7 @@ func ValidateToken(ctx context.Context, token string) error {
 
 	// GitHub returns scopes in the 'X-OAuth-Scopes' header
 	scopes := resp.Header.Get("X-OAuth-Scopes")
-	if err := checkRequiredScopes(scopes); err != nil {
+	if err := CheckRequiredScopes(scopes); err != nil {
 		return err
 	}
 
@@ -54,7 +54,8 @@ func ValidateToken(ctx context.Context, token string) error {
 	return nil
 }
 
-func checkRequiredScopes(scopes string) error {
+// CheckRequiredScopes validates that the given comma-separated scopes include repo, read:user, and read:org.
+func CheckRequiredScopes(scopes string) error {
 	required := []string{"repo", "read:user", "read:org"}
 	found := strings.Split(scopes, ", ")
 
